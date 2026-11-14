@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102b25">
+  <title>TerraWise | Global Agriculture Intelligence Platform</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="TerraWise home">
+      <span class="brand-mark">TW</span>
+      <span><strong>TerraWise</strong><small>GLOBAL AGRICULTURE INTELLIGENCE PLATFORM</small></span>
+    </a>
+    <nav>
+      <a href="#intelligence">Intelligence</a>
+      <a href="#rotation">Rotation Explorer</a>
+      <a href="#sources">Data Sources</a>
+    </nav>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">EARTH OBSERVATION · AGRICULTURE · DECISION SUPPORT</p>
+        <h1>Understand your land.<br><span>Plan for resilience.</span></h1>
+        <p class="tagline">Earth's intelligence for resilience agriculture.</p>
+        <p class="hero-description">Explore climate, soil and satellite evidence to compare crop-rotation strategies for changing agricultural conditions.</p>
+        <a class="primary-link" href="#field-profile">Analyze a field <span>↘</span></a>
+      </div>
+      <div class="hero-visual" aria-label="Agricultural field illustration">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <div class="earth-symbol">✳</div>
+        <div class="visual-label"><span class="live-dot"></span> EARTH DATA → FIELD DECISIONS</div>
+      </div>
+    </section>
+
+    <section class="section" id="field-profile">
+      <div class="section-heading">
+        <div><p class="eyebrow">01 / FIELD CONTEXT</p><h2>Build your field profile</h2></div>
+        <p>Enter a location and the conditions you know. User-entered information is kept separate from satellite and model data.</p>
+      </div>
+      <form id="fieldForm" class="panel form-grid">
+        <label>Country<input id="country" name="country" placeholder="e.g. Ethiopia" required></label>
+        <label>Field name<input id="fieldName" name="fieldName" placeholder="e.g. North field"></label>
+        <label>Latitude<input id="latitude" name="latitude" type="number" step="any" min="-90" max="90" placeholder="9.03" required></label>
+        <label>Longitude<input id="longitude" name="longitude" type="number" step="any" min="-180" max="180" placeholder="38.74" required></label>
+        <label>Field area (hectares)<input id="area" name="area" type="number" min="0" step="any" placeholder="Optional"></label>
+        <label>Soil type<select id="soilType" name="soilType"><option value="">Unknown / not tested</option><option>Sandy</option><option>Clay</option><option>Loamy</option><option>Silty</option><option>Volcanic</option><option>Other / mixed</option></select></label>
+        <label>Water availability<select id="waterAvailability" name="waterAvailability"><option value="">Not specified</option><option value="rainfed">Rainfed</option><option value="limited">Limited irrigation</option><option value="reliable">Reliable irrigation</option></select></label>
+        <label>Current main crop<input id="currentCrop" name="currentCrop" placeholder="e.g. maize"></label>
+        <label>Farmer's main priority<select id="priority" name="priority"><option value="balanced">Balanced resilience</option><option value="water">Conserve water</option><option value="soil">Improve soil condition</option><option value="risk">Reduce climate risk</option><option value="income">Consider income / market fit</option></select></label>
+        <label class="wide">Current crop rotation<input id="currentRotation" name="currentRotation" placeholder="e.g. maize → wheat → fallow"></label>
+        <label class="wide">Additional field notes<textarea id="fieldNotes" rows="3" placeholder="Known soil tests, planting months, irrigation limits, local constraints..."></textarea></label>
+        <div class="wide form-actions"><button class="button" type="submit">Save field profile</button><span id="profileStatus" class="muted" aria-live="polite">No profile saved yet.</span></div>
+      </form>
+    </section>
+
+    <section class="section" id="climate">
+      <div class="section-heading">
+        <div><p class="eyebrow">02 / NASA EARTH DATA</p><h2>Climate intelligence</h2></div>
+        <p>Retrieve daily temperature and precipitation estimates for the selected coordinates using NASA POWER.</p>
+      </div>
+      <div class="panel">
+        <div class="toolbar">
+          <label>Start date<input id="startDate" type="date" value="2024-01-01"></label>
+          <label>End date<input id="endDate" type="date" value="2024-01-31"></label>
+          <button id="loadClimate" class="button" type="button">Retrieve NASA POWER data</button>
+        </div>
+        <p id="climateStatus" class="status" aria-live="polite">Enter field coordinates, then retrieve climate data.</p>
+        <div class="metric-grid">
+          <article class="metric"><span>Average temperature</span><strong id="avgTemp">—</strong><small>°C · T2M</small></article>
+          <article class="metric"><span>Total precipitation</span><strong id="totalRain">—</strong><small>mm · PRECTOTCORR</small></article>
+          <article class="metric"><span>Maximum temperature</span><strong id="maxTemp">—</strong><small>°C · T2M</small></article>
+          <article class="metric"><span>Valid daily records</span><strong id="validDays">—</strong><small>daily observations</small></article>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>Date</th><th>Temperature (°C)</th><th>Precipitation (mm)</th></tr></thead><tbody id="climateTable"><tr><td colspan="3">No climate data loaded.</td></tr></tbody></table></div>
+        <p class="small-note">NASA POWER provides gridded estimates, not direct measurements from the farmer's exact field. Results depend on data availability and selected dates.</p>
+      </div>
+    </section>
+
+    <section class="section" id="intelligence">
+      <div class="section-heading">
+        <div><p class="eyebrow">03 / CONNECTED EVIDENCE</p><h2>Six intelligence domains</h2></div>
+        <p>TerraWise organizes evidence into connected domains. A domain is not a verified diagnosis unless supported by suitable data.</p>
+      </div>
+      <div class="intelligence-grid">
+        <article class="intel-card"><span>01</span><h3>Climate</h3><p>Temperature, precipitation patterns and climate variability.</p><small>NASA POWER</small></article>
+        <article class="intel-card"><span>02</span><h3>Soil</h3><p>Soil texture and selected soil properties from gridded datasets.</p><small>ISRIC SoilGrids</small></article>
+        <article class="intel-card"><span>03</span><h3>Water</h3><p>Water availability and precipitation context; field irrigation details remain user supplied.</p><small>NASA POWER + field inputs</small></article>
+        <article class="intel-card"><span>04</span><h3>Crop</h3><p>Crop characteristics and growing-season constraints.</p><small>Farmer inputs + reference resources</small></article>
+        <article class="intel-card"><span>05</span><h3>Vegetation</h3><p>Recent Sentinel-2 scene availability and cloud-cover metadata.</p><small>ESA Sentinel-2 via Earth Search</small></article>
+        <article class="intel-card"><span>06</span><h3>Risk &amp; decisions</h3><p>Trade-offs, missing evidence and uncertainty for human review.</p><small>TerraWise decision support</small></article>
+      </div>
+    </section>
+
+    <section class="section" id="soil">
+      <div class="section-heading">
+        <div><p class="eyebrow">04 / SOIL OBSERVATION</p><h2>Soil intelligence</h2></div>
+        <p>Query available SoilGrids properties near the field coordinates. Gridded soil estimates do not replace laboratory testing.</p>
+      </div>
+      <div class="panel">
+        <button id="loadSoil" class="button secondary" type="button">Retrieve SoilGrids properties</button>
+        <p id="soilStatus" class="status" aria-live="polite">Soil data has not been requested.</p>
+        <div id="soilResults" class="soil-results"><p class="muted">Soil property results will appear here.</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="satellite">
+      <div class="section-heading">
+        <div><p class="eyebrow">05 / SPACE AGENCY PARTNER DATA</p><h2>Sentinel-2 observation search</h2></div>
+        <p>Search for recent ESA Sentinel-2 Level-2A scenes around the field using the public Earth Search STAC catalogue.</p>
+      </div>
+      <div class="panel">
+        <div class="toolbar">
+          <label>Search radius<select id="satRadius"><option value="0.05">~5 km</option><option value="0.1" selected>~10 km</option><option value="0.25">~25 km</option></select></label>
+          <label>Look back<select id="satDays"><option value="30">30 days</option><option value="60" selected>60 days</option><option value="90">90 days</option></select></label>
+          <button id="loadSatellite" class="button secondary" type="button">Find Sentinel-2 scenes</button>
+        </div>
+        <p id="satelliteStatus" class="status" aria-live="polite">No satellite search performed.</p>
+        <div id="satelliteResults" class="scene-list"><p class="muted">Scene metadata will appear here when available.</p></div>
+        <p class="small-note">This search reports available scenes and metadata. It does not calculate NDVI or interpret satellite pixels.</p>
+      </div>
+    </section>
+
+    <section class="section" id="rotation">
+      <div class="section-heading">
+        <div><p class="eyebrow">06 / DECISION SUPPORT</p><h2>Crop rotation explorer</h2></div>
+        <p>Compare the farmer's baseline with two screening concepts. These are hypotheses for local review, not automatic agronomic prescriptions.</p>
+      </div>
+      <div class="panel">
+        <div class="toolbar">
+          <label>Rotation period<select id="rotationYears"><option value="3">3 years</option><option value="4" selected>4 years</option><option value="5">5 years</option></select></label>
+          <button id="compareRotations" class="button" type="button">Compare rotation strategies</button>
+        </div>
+        <div id="rotationResults" class="rotation-grid"><p class="muted">Save a field profile to begin comparison.</p></div>
+        <p class="small-note">Rotation screening uses limited crop-trait assumptions and user inputs. Before adoption, verify local crop suitability, planting calendar, markets, pests, soil tests and water constraints with local expertise.</p>
+      </div>
+    </section>
+
+    <section class="section" id="report">
+      <div class="section-heading"><div><p class="eyebrow">07 / EXPLAINABLE OUTPUT</p><h2>Decision report</h2></div><p>A transparent summary of retrieved evidence, user inputs, assumptions and unresolved questions.</p></div>
+      <div class="panel">
+        <button id="generateReport" class="button secondary" type="button">Generate decision report</button>
+        <div id="reportOutput" class="report-output"><p class="muted">Generate a report after entering a field profile and retrieving available data.</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="sources">
+      <div class="section-heading"><div><p class="eyebrow">08 / TRANSPARENCY</p><h2>Data sources &amp; resources</h2></div><p>Source names and public links. The status shown is based on successful retrieval during this browser session, not merely on listing a source.</p></div>
+      <div class="panel source-list">
+        <div class="source-row"><div><strong>NASA POWER — Daily Point API</strong><p>Daily temperature and corrected precipitation estimates.</p><a href="https://power.larc.nasa.gov/docs/services/api/temporal/daily/" target="_blank" rel="noopener">API documentation ↗</a></div><span id="powerSourceStatus" class="source-status">Not queried</span></div>
+        <div class="source-row"><div><strong>ESA Sentinel-2 — Earth Search STAC</strong><p>Searches Sentinel-2 L2A scene metadata from an open catalogue.</p><a href="https://earth-search.aws.element84.com/v1/" target="_blank" rel="noopener">STAC catalogue ↗</a></div><span id="sentinelSourceStatus" class="source-status">Not queried</span></div>
+        <div class="source-row"><div><strong>ISRIC SoilGrids</strong><p>Gridded soil-property estimates for selected depths.</p><a href="https://www.isric.org/explore/soilgrids" target="_blank" rel="noopener">SoilGrids ↗</a></div><span id="soilSourceStatus" class="source-status">Not queried</span></div>
+        <div class="source-row"><div><strong>FAO — Crop Calendar</strong><p>Reference resource for country-level crop calendars; not queried by this prototype.</p><a href="https://cropcalendar.apps.fao.org/" target="_blank" rel="noopener">FAO Crop Calendar ↗</a></div><span class="source-status planned">Reference link</span></div>
+        <div class="source-row"><div><strong>FAO — ECOCROP</strong><p>Crop ecological requirements reference; not queried by this prototype.</p><a href="https://www.fao.org/" target="_blank" rel="noopener">FAO ↗</a></div><span class="source-status planned">Reference link</span></div>
+        <div class="source-row"><div><strong>NASA POWER API documentation</strong><p>Technical documentation for the NASA data service.</p><a href="https://power.larc.nasa.gov/" target="_blank" rel="noopener">NASA POWER ↗</a></div><span class="source-status">Documentation</span></div>
+      </div>
+    </section>
+  </main>
+
+  <footer><strong>TerraWise</strong><span>Global Agriculture Intelligence Platform</span><p>Independent educational prototype. Not affiliated with or endorsed by NASA, ESA, ISRIC or FAO. Decisions require local validation.</p></footer>
+  <script src="api.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
